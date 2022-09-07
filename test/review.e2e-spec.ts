@@ -40,6 +40,13 @@ describe('AppController (e2e)', () => {
             });
     });
 
+    it('/review (POST) - fail', () => {
+        return request(app.getHttpServer())
+            .post('/review')
+            .send({ ...testDto, rating: 7 })
+            .expect(400);
+    });
+
     it('/review/byProduct/:productId (GET) - found product', async () => {
         return request(app.getHttpServer())
             .get('/review/byProduct/' + productId)
@@ -58,13 +65,13 @@ describe('AppController (e2e)', () => {
             });
     });
 
-    it('/review/:id (DELETE)', async () => {
+    it('/review/:id (DELETE)', () => {
         return request(app.getHttpServer())
             .delete('/review/' + createdId)
             .expect(200);
     });
 
-    it('/review/:id (DELETE) - not existing review', async () => {
+    it('/review/:id (DELETE) - not existing review', () => {
         return request(app.getHttpServer())
             .delete('/review/' + new Types.ObjectId().toHexString())
             .expect(404, {
