@@ -3,7 +3,10 @@ import { Document } from 'mongoose';
 
 export type UserDocument = UserModel & Document;
 
-@Schema({ timestamps: true })
+@Schema({
+    collection: 'users',
+    timestamps: true,
+})
 export class UserModel {
     @Prop({
         unique: true,
