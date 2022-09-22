@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+@Schema()
 class ProductCharacteristics {
     @Prop()
     name: string;
@@ -9,9 +10,16 @@ class ProductCharacteristics {
     value: string;
 }
 
+const ProductCharacteristicsSchema = SchemaFactory.createForClass(
+    ProductCharacteristics,
+);
+
 export type ProductDocument = ProductModel & Document;
 
-Schema({ timestamps: true });
+@Schema({
+    collection: 'products',
+    timestamps: true,
+})
 export class ProductModel {
     @Prop()
     image: string;
@@ -23,13 +31,10 @@ export class ProductModel {
     price: number;
 
     @Prop()
-    oldPrice: number;
+    oldPrice?: number;
 
     @Prop()
     credit: number;
-
-    @Prop()
-    calculatedRating: number;
 
     @Prop()
     description: string;
@@ -46,7 +51,7 @@ export class ProductModel {
     @Prop([String])
     tags: string[];
 
-    @Prop({ type: [ProductCharacteristics], _id: false })
+    @Prop({ type: [ProductCharacteristicsSchema], _id: false })
     characteristics: ProductCharacteristics[];
 }
 

@@ -16,12 +16,12 @@ import { REVIEW_NOT_FOUND } from './review.constants';
 import { ReviewDocument } from './review.model';
 import { ReviewService } from './review.service';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
-import { UserEmail } from '../decorators/user-email.decorator';
 
-@Controller('review')
+@Controller('reviews')
 export class ReviewController {
     constructor(private readonly reviewService: ReviewService) {}
 
+    @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe())
     @Post()
     async create(@Body() dto: CreateReviewDto): Promise<ReviewDocument> {
@@ -44,6 +44,7 @@ export class ReviewController {
         return await this.reviewService.findByProductId(productId);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete('byProduct/:productId')
     async deleteByProductId(
         @Param('productId') productId: string,

@@ -3,7 +3,10 @@ import mongoose, { Document } from 'mongoose';
 
 export type ReviewDocument = ReviewModel & Document;
 
-@Schema({ timestamps: true })
+@Schema({
+    collection: 'reviews',
+    timestamps: true,
+})
 export class ReviewModel {
     @Prop()
     name: string;
